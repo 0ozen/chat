@@ -1,0 +1,45 @@
+.messageCont {
+	max-height: 60vh;
+	overflow-y: scroll;
+	display: flex;
+	flex-direction: column;
+  width: 70%;
+	max-width: 1000px;
+}
+
+.comment {
+	display: flex;
+	padding-right: 10px;
+	margin-bottom: 15px;
+}
+.comment img {
+	border-radius: 50%;
+	margin-right: 15px;
+}
+.messageTop {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+}
+.messageTop span {
+	font-size: 0.8rem;
+	align-items: center;
+	color: rgb(175, 174, 172);
+}
+.message{
+  width: 100%;
+}
+.userName {
+	font-size: 1rem;
+	font-weight: 600;
+}
+.content {
+  width: 100%;
+	padding-bottom: 5px;
+}
+
+@media (max-width:600px) {
+  .messageCont{
+    width: 95%;
+  }
+}
