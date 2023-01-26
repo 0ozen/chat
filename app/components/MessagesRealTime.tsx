@@ -23,10 +23,6 @@ export function MessagesRealTime({
 	const { user } = useOutletContext<any>();
 
 	useEffect(() => {
-		setMessages(serverMessages);
-	}, [serverMessages]);
-
-	useEffect(() => {
 		const chanel = supabase
 			.channel("*")
 			.on(
@@ -38,8 +34,7 @@ export function MessagesRealTime({
 						setMessages((messages) => [...messages, newMessages]);
 					}
 				}
-			)
-			.subscribe();
+			).subscribe();
 
 		return () => {
 			supabase.removeChannel(chanel);
@@ -68,7 +63,7 @@ export function MessagesRealTime({
               <span>{moment(created_at).fromNow()}</span>
               </div>
 							<p className="content">{content}</p>
-						</div>{" "}
+						</div>
 					</div>
 				);
 			})}

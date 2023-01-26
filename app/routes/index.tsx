@@ -10,8 +10,10 @@ import {
 
 import { Login, links as loginStyles } from "~/components/Login";
 import styles from "../styles/main.css";
-import { useRef, useState } from "react";
-import image from "../../public/user.svg"
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import image from "../../public/user.svg";
+
+import { useSubmit } from "@remix-run/react";
 
 // loader de datos en el SERVER
 export const loader = async ({ request }: LoaderArgs) => {
@@ -26,7 +28,6 @@ export const action = async ({ request }: ActionArgs) => {
 	const supabase = createSupabaseServerClient({ request, response });
 	const formdata = await request.formData();
 	const { message } = Object.fromEntries(formdata);
-
 
 	const send = await supabase
 		.from("messages")
@@ -45,13 +46,28 @@ export default function Index() {
 	const { messages } = useLoaderData<typeof loader>();
 	const { user } = useOutletContext<any>();
 	const [show, setShow] = useState(false);
+	const [input, setInput] = useState("");
 	const resize = useRef<any>();
+	const formRef = useRef<HTMLFormElement>(null);
+	const submit = useSubmit();
 
+	function adjustHeight(e: ChangeEvent<HTMLTextAreaElement>) {
+		setInput(e?.target?.value);
+		resize.current.style.height = "25px";
+		resize.current.style.height = resize.current.scrollHeight + "px";
+	}
 
-  function adjustHeight() {
-    resize.current.style.height = "25px";
-    resize.current.style.height = resize.current.scrollHeight + "px";
-  }
+	const cancel = () => {
+		setShow(false);
+		setInput("");
+		resize.current.blur();
+	};
+
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		setShow(false);
+		setInput("");
+		submit(e.currentTarget, { replace: true });
+	};
 
 	return (
 		<main>
@@ -65,22 +81,24 @@ export default function Index() {
 			<div className="form">
 				<div>
 					<img
-						width={"48px"}
-						height={"48px"}
-						src={user?.user_metadata?.avatar_url || image }
+						width={"40px"}
+						height={"40px"}
+						src={user?.user_metadata?.avatar_url || image}
 						alt="user avatar"
 					/>
 				</div>
-				<Form method="post">
+				<Form onSubmit={handleSubmit} ref={formRef} method="post">
 					<textarea
-            ref={resize}
-            onChange={adjustHeight}
+						ref={resize}
+						onChange={adjustHeight}
 						onFocus={() => setShow(true)}
 						name="message"
-						placeholder="Add a comment..."></textarea>
+						placeholder="Add a comment..."
+						value={input}
+					/>
 					{show && (
 						<div className="buttons">
-							<button onClick={() => setShow(false)}>Cancelar</button>
+							<button onClick={cancel}>Cancelar</button>
 							<button type="submit">Enviar</button>
 						</div>
 					)}

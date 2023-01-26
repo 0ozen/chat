@@ -10,6 +10,13 @@ body {
 
 h1 {
 	color: #fff;
+  user-select: none;
+  line-height: 1.1;
+  background: #00C9FF;
+  background: -webkit-linear-gradient(to right,#92FE9D,#00C9FF);
+  background: linear-gradient(to right,#92FE9D,#00C9FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent
 }
 
 p {
