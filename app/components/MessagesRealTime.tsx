@@ -63,7 +63,8 @@ export function MessagesRealTime({
 						/>
 						<div className="message">
               <div className="messageTop">
-							{<p className="userName">{user?.user_metadata?.name || "unknow"}</p>}
+							{<p className="userName">{"unknow"}</p>}
+              {/* user?.user_metadata?.name ||  */}
               <span>{moment(created_at).fromNow()}</span>
               </div>
 							<p className="content">{content}</p>
