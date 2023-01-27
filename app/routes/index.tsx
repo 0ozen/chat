@@ -19,8 +19,8 @@ import { useSubmit } from "@remix-run/react";
 export const loader = async ({ request }: LoaderArgs) => {
 	const response = new Response();
 	const supabase = createSupabaseServerClient({ request, response });
-	const { data } = await supabase.from("messages").select();
-	return json({ messages: data ?? [] }, { headers: response.headers });
+	const { data } = await supabase.from("messages").select().order('created_at', { ascending: true });  
+  return json({ messages: data ?? [] }, { headers: response.headers });
 };
 
 export const action = async ({ request }: ActionArgs) => {
